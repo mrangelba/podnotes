@@ -26,11 +26,10 @@
 library;
 
 import 'package:flutter/material.dart';
-
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:multi_select_flutter/util/multi_select_item.dart';
 
-const solidServerUrl = 'https://pods.solidcommunity.au/';
+const solidServerUrl = 'https://solid.dmtecnologia.dev/';
 
 const String applicationName = 'Podnotes'; // "Pod Note Taker";
 const String applicationVersion = '0.1.0';

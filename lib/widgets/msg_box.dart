@@ -206,9 +206,8 @@ Container buildMsgBox(
                     child: Text(
                       title,
                       style: TextStyle(
-                        fontSize: !isMobile
-                            ? size.height * 0.03
-                            : size.height * 0.025,
+                        fontSize:
+                            !isMobile ? size.height * 0.03 : size.height * 0.02,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
                       ),

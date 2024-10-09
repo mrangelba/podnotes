@@ -85,11 +85,12 @@ String genEncKeyBody(
 }
 
 // Set up public file acl content
-String genPubFileAclBody(String fileName) {
+String genPubFileAclBody(String fileName, String webId) {
   // Create file body
+  String webIdStr = webId.replaceAll('me', '');
   String resName = fileName.replaceAll('.acl', '');
   String pubFileBody =
-      '@prefix : <#>.\n@prefix acl: <$acl>.\n@prefix foaf: <$foaf>.\n@prefix c: <card#>.\n\n:owner\n    a acl:Authorization;\n    acl:accessTo <$resName>;\n    acl:agent c:me;\n    acl:mode acl:Control, acl:Read, acl:Write.\n\n:public\n    a acl:Authorization;\n    acl:accessTo <$resName>;\n    acl:agentClass foaf:Agent;\n    acl:mode acl:Read, acl:Write.';
+      '@prefix : <#>.\n@prefix acl: <$acl>.\n@prefix foaf: <$foaf>.\n@prefix c: <$webIdStr>.\n\n<#owner>\n    a acl:Authorization;\n    acl:accessTo <$resName>;\n    acl:agent c:me;\n    acl:mode acl:Control, acl:Read, acl:Write.\n\n<#public>\n    a acl:Authorization;\n    acl:accessTo <$resName>;\n    acl:agentClass foaf:Agent;\n    acl:mode acl:Read, acl:Write.';
 
   return pubFileBody;
 }
@@ -124,7 +125,7 @@ String genIndKeyFileBody() {
 // Set up public key file content
 String genPubKeyFileBody(String resUrl, String pubKeyStr) {
   String keyFileBody =
-      '<$resUrl> <$terms$titlePred> "Public key";\n    <$podnotesTerms$pubKeyPred> "$pubKeyStr";';
+      '<$resUrl> <$terms$titlePred> "Public key";\n    <$podnotesTerms$pubKeyPred> "$pubKeyStr".';
 
   return keyFileBody;
 }

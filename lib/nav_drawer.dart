@@ -86,7 +86,7 @@ class NavDrawer extends StatelessWidget {
                         builder: (context) => NavigationScreen(
                           webId: webId,
                           authData: authData,
-                          page: 'listNotes',
+                          page: 'home',
                         ),
                       ),
                       (Route<dynamic> route) =>

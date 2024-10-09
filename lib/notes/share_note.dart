@@ -22,7 +22,6 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:intl/intl.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:podnotes/common/rest_api/res_permission.dart';
@@ -35,6 +34,7 @@ import 'package:podnotes/constants/turtle_structures.dart';
 import 'package:podnotes/nav_drawer.dart';
 import 'package:podnotes/nav_screen.dart';
 import 'package:podnotes/widgets/data_cell.dart';
+import 'package:podnotes/widgets/err_dialogs.dart';
 import 'package:podnotes/widgets/loading_animation.dart';
 import 'package:solid_auth/solid_auth.dart';
 
@@ -213,7 +213,7 @@ DataRow permissionRow(
                                     builder: (context) => NavigationScreen(
                                           webId: userWebId,
                                           authData: authData,
-                                          page: 'listNotes',
+                                          page: 'home',
                                         )),
                                 (Route<dynamic> route) =>
                                     false, // This predicate ensures all previous routes are removed
@@ -318,7 +318,7 @@ class _ShareNoteState extends State<ShareNote> {
                                   builder: (context) => NavigationScreen(
                                     webId: webId,
                                     authData: authData,
-                                    page: 'listNotes',
+                                    page: 'home',
                                   ),
                                 ),
                                 (Route<dynamic> route) =>
@@ -606,16 +606,21 @@ class _ShareNoteState extends State<ShareNote> {
                   'Granting access!',
                   false,
                 );
-                await addPermission(
-                  context,
-                  _permissionInputController,
-                  accessToken,
-                  widget.authData,
-                  resourceName,
-                  resourceUrl,
-                  selectedItems,
-                  widget.webId,
-                );
+                try {
+                  await addPermission(
+                    context,
+                    _permissionInputController,
+                    accessToken,
+                    widget.authData,
+                    resourceName,
+                    resourceUrl,
+                    selectedItems,
+                    widget.webId,
+                  );
+                } catch (e) {
+                  Navigator.pop(context);
+                  showErrDialog(context, 'Error on sharing the file');
+                }
               },
             ),
           ],

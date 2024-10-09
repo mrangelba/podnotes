@@ -1,6 +1,6 @@
 name: podnotes
 description: Privacy preserving note taking app using PODs.
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -21,7 +21,7 @@ dependencies:
   flutter_svg: ^2.0.5
   flutter_typeahead: ^5.2.0
   form_builder_validators: ^9.1.0
-  http: ^1.1.2
+  http: 1.1.2
   jwt_decoder: ^2.0.1
   loading_indicator: ^3.1.1
   markdown_editor_plus: ^0.2.15
@@ -56,10 +56,10 @@ flutter_launcher_icons:
     image_path: "assets/images/podnotes.png"
 
 dev_dependencies:
-#  dart_code_metrics:
-#    git:
-#      url: https://github.com/anusii/dart-code-metrics.git
-#      ref: main
+  #  dart_code_metrics:
+  #    git:
+  #      url: https://github.com/anusii/dart-code-metrics.git
+  #      ref: main
 
   flutter_lints: ^4.0.0
 

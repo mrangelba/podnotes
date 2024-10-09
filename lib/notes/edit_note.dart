@@ -36,6 +36,8 @@ import 'package:podnotes/constants/colours.dart';
 import 'package:podnotes/widgets/err_dialogs.dart';
 import 'package:podnotes/widgets/loading_animation.dart';
 
+import '../nav_screen.dart';
+
 class EditNote extends StatefulWidget {
   final String webId;
   final Map authData;
@@ -108,15 +110,17 @@ class EditNoteState extends State<EditNote>
             height: 10,
           ),
           Container(
-              padding: const EdgeInsets.all(10),
-              child: SplittedMarkdownFormField(
-                controller: _textController,
-                markdownSyntax: '## Headline',
-                decoration: const InputDecoration(
-                  hintText: 'Editable text',
-                ),
-                emojiConvert: true,
-              )),
+            padding: const EdgeInsets.all(10),
+            child: SplittedMarkdownFormField(
+              controller: _textController,
+              markdownSyntax: '## Headline',
+              decoration: const InputDecoration(
+                hintText: 'Editable text',
+              ),
+              emojiConvert: true,
+              maxLines: 10,
+            ),
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -191,7 +195,18 @@ class EditNoteState extends State<EditNote>
 
                         if (updateRes == 'ok') {
                           // ignore: use_build_context_synchronously
-                          Navigator.pop(context);
+                          Navigator.pushAndRemoveUntil(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => NavigationScreen(
+                                webId: widget.webId,
+                                authData: widget.authData,
+                                page: 'home',
+                              ),
+                            ),
+                            (Route<dynamic> route) =>
+                                false, // This predicate ensures all previous routes are removed
+                          );
                         } else {
                           // ignore: use_build_context_synchronously
                           Navigator.pop(context);

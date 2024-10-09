@@ -43,7 +43,7 @@ import 'package:solid_auth/solid_auth.dart';
 /// user's POD is required for any of the functionality of the app requires
 /// access to the user's POD.
 
-const _defaultWebID = 'https://pods.solidcommunity.au';
+const _defaultWebID = 'https://solid.dmtecnologia.dev';
 const _mainImage = AssetImage('assets/images/podnotes-background.jpg');
 
 class LoginScreen extends StatelessWidget {

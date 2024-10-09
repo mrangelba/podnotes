@@ -23,7 +23,6 @@
 library;
 
 import 'package:flutter/material.dart';
-
 import 'package:markdown_editor_plus/markdown_editor_plus.dart';
 import 'package:podnotes/common/rest_api/res_permission.dart';
 import 'package:podnotes/common/rest_api/rest_api.dart';
@@ -32,6 +31,8 @@ import 'package:podnotes/constants/rdf_functions.dart';
 import 'package:podnotes/nav_screen.dart';
 import 'package:podnotes/notes/share_note.dart';
 import 'package:podnotes/widgets/loading_animation.dart';
+
+import '../utils/is_desktop.dart';
 
 class ViewNote extends StatefulWidget {
   final Map noteData;
@@ -208,7 +209,7 @@ class _ViewNoteState extends State<ViewNote> {
                   color: Colors.white,
                 ),
                 onPressed: () async {
-                  Navigator.pushAndRemoveUntil(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => NavigationScreen(
@@ -217,8 +218,6 @@ class _ViewNoteState extends State<ViewNote> {
                               page: 'editNote',
                               noteFileName: noteData['noteFileName'],
                             )),
-                    (Route<dynamic> route) =>
-                        false, // This predicate ensures all previous routes are removed
                   );
                 },
                 style: ElevatedButton.styleFrom(
@@ -281,7 +280,7 @@ class _ViewNoteState extends State<ViewNote> {
                                       builder: (context) => NavigationScreen(
                                             webId: widget.webId,
                                             authData: widget.authData,
-                                            page: 'listNotes',
+                                            page: 'home',
                                           )),
                                   (Route<dynamic> route) =>
                                       false, // This predicate ensures all previous routes are removed
@@ -320,41 +319,42 @@ class _ViewNoteState extends State<ViewNote> {
               const SizedBox(
                 width: 5,
               ),
+              if (isDesktop)
 
-              /// uncomment upto here
-              ElevatedButton.icon(
-                icon: const Icon(
-                  Icons.keyboard_backspace,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NavigationScreen(
-                              webId: widget.webId,
-                              authData: widget.authData,
-                              page: 'listNotes',
-                            )),
-                    (Route<dynamic> route) =>
-                        false, // This predicate ensures all previous routes are removed
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: titleAsh,
-                  backgroundColor: lightGray, // foreground
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 15,
+                /// uncomment upto here
+                ElevatedButton.icon(
+                  icon: const Icon(
+                    Icons.keyboard_backspace,
+                    color: Colors.white,
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
+                  onPressed: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NavigationScreen(
+                                webId: widget.webId,
+                                authData: widget.authData,
+                                page: 'home',
+                              )),
+                      (Route<dynamic> route) =>
+                          false, // This predicate ensures all previous routes are removed
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: titleAsh,
+                    backgroundColor: lightGray, // foreground
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 15,
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                  ),
+                  label: const Text(
+                    'GO BACK',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
-                label: const Text(
-                  'GO BACK',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
             ],
           ),
         ),

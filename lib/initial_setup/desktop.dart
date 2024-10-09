@@ -27,16 +27,12 @@ library;
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
 import 'package:fast_rsa/fast_rsa.dart' as frsa;
+import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:solid_auth/solid_auth.dart';
-import 'package:solid_encrypt/solid_encrypt.dart';
-
 import 'package:podnotes/common/rest_api/rest_api.dart';
 import 'package:podnotes/constants/app.dart';
 import 'package:podnotes/constants/colours.dart';
@@ -45,10 +41,13 @@ import 'package:podnotes/constants/file_structure.dart';
 import 'package:podnotes/constants/turtle_structures.dart';
 import 'package:podnotes/login/screen.dart';
 import 'package:podnotes/nav_screen.dart';
+import 'package:podnotes/utils/is_desktop.dart';
 import 'package:podnotes/utils/truncate_str.dart';
 import 'package:podnotes/widgets/err_dialogs.dart';
 import 'package:podnotes/widgets/loading_animation.dart';
 import 'package:podnotes/widgets/msg_box.dart';
+import 'package:solid_auth/solid_auth.dart';
+import 'package:solid_encrypt/solid_encrypt.dart';
 
 class InitialSetupDesktop extends StatefulWidget {
   final Map resNeedToCreate;
@@ -88,7 +87,7 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                 child: SizedBox(
                   //height: 300,
                   child: Padding(
-                    padding: const EdgeInsets.all(30.0),
+                    padding: const EdgeInsets.all(16.0),
                     child: Column(
                       children: [
                         Container(
@@ -111,7 +110,7 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                         const Text(
                           initialStructureWelcome,
                           style: TextStyle(
-                            fontSize: 25,
+                            fontSize: 22,
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                           ), //Textstyle
@@ -132,7 +131,8 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                 child: SizedBox(
                   //height: 500,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(80, 10, 80, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        isDesktop ? 80 : 24, 10, isDesktop ? 80 : 24, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -176,7 +176,8 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                 child: SizedBox(
                   //height: 500,
                   child: Padding(
-                    padding: const EdgeInsets.fromLTRB(80, 10, 80, 0),
+                    padding: EdgeInsets.fromLTRB(
+                        isDesktop ? 80 : 24, 10, isDesktop ? 80 : 24, 0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
@@ -559,8 +560,8 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                                                 widget.webId,
                                                 resName.replaceAll('.acl', ''));
                                           } else {
-                                            fileBody =
-                                                genPubFileAclBody(resName);
+                                            fileBody = genPubFileAclBody(
+                                                resName, widget.webId);
                                           }
                                         } else if (resName == '.acl') {
                                           fileBody = genPubDirAclBody();
@@ -653,7 +654,7 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                                     foregroundColor: darkBlue,
                                     backgroundColor: darkBlue, // foreground
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 50),
+                                        horizontal: 10),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10))),
@@ -673,7 +674,7 @@ class _InitialSetupDesktopState extends State<InitialSetupDesktop> {
                                     foregroundColor: darkBlue,
                                     backgroundColor: darkBlue, // foreground
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 50),
+                                        horizontal: 10),
                                     shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(10))),

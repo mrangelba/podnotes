@@ -27,7 +27,6 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
-
 import 'package:podnotes/constants/colours.dart';
 import 'package:podnotes/home.dart';
 import 'package:podnotes/login/token_expiry.dart';
@@ -92,18 +91,18 @@ class HomeState extends State<NavigationScreen>
       }
 
       if (page == 'home') {
-        loadingScreen = Home(webId: webId, authData: authData);
+        loadingScreen = ListNotesScreen(
+          webId: webId,
+          authData: authData,
+        );
       } else if (page == 'encKeyInput') {
         loadingScreen = EncryptionKeyInput(
           validEncKey: ValueNotifier(isKeyExist),
           webId: webId,
           authData: authData,
         );
-      } else if (page == 'listNotes') {
-        loadingScreen = ListNotesScreen(
-          webId: webId,
-          authData: authData,
-        );
+      } else if (page == 'addNotes') {
+        loadingScreen = Home(webId: webId, authData: authData);
       } else if (page == 'viewNote') {
         loadingScreen = ViewEditNoteScreen(
           noteFileName: widget.noteFileName!,
@@ -170,16 +169,14 @@ class HomeState extends State<NavigationScreen>
                 color: Colors.black,
               ),
               onPressed: () {
-                Navigator.pushAndRemoveUntil(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => NavigationScreen(
                             webId: webId,
                             authData: authData,
-                            page: 'home',
+                            page: 'addNotes',
                           )),
-                  (Route<dynamic> route) =>
-                      false, // This predicate ensures all previous routes are removed
                 );
               },
             ),
@@ -200,7 +197,7 @@ class HomeState extends State<NavigationScreen>
                       builder: (context) => NavigationScreen(
                             webId: webId,
                             authData: authData,
-                            page: 'listNotes',
+                            page: 'home',
                           )),
                   (Route<dynamic> route) =>
                       false, // This predicate ensures all previous routes are removed

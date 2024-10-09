@@ -80,9 +80,11 @@ Future<Map> getPermission(
 
     if (resourceSet.contains('<$resourceName>')) {
       for (String userStr in userSet) {
-        String userWebId = userNameMap[userStr];
-        String accessStr = accessSet.join(', ').replaceAll('acl:', '');
-        userPermMap[userWebId] = accessStr;
+        if (userNameMap.containsKey(userStr)) {
+          String userWebId = userNameMap[userStr];
+          String accessStr = accessSet.join(', ').replaceAll('acl:', '');
+          userPermMap[userWebId] = accessStr;
+        }
       }
     }
   }
@@ -211,6 +213,10 @@ Future<void> addPermission(
           '$logDirLoc/$permLogFile',
         );
 
+        if (!permissionWebId.contains('card#me')) {
+          permissionWebId = permissionWebId.replaceAll('/card#', '/card#me');
+        }
+
         String permLogUrlReceiver = permissionWebId.replaceAll(
           profCard,
           '$logDirLoc/$permLogFile',
@@ -241,7 +247,7 @@ Future<void> addPermission(
               builder: (context) => NavigationScreen(
                     webId: webId,
                     authData: authData,
-                    page: 'listNotes',
+                    page: 'home',
                   )),
           (Route<dynamic> route) =>
               false, // This predicate ensures all previous routes are removed
@@ -429,6 +435,10 @@ Future<String> fetchOtherPubKey(Map authData, String otherWebId) async {
   var publicKeyJwk = rsaInfo['pubKeyJwk'];
   String accessToken = authData['accessToken'];
 
+  if (!otherWebId.contains('card#me')) {
+    otherWebId = otherWebId.replaceAll('/card#', '/card#me');
+  }
+
   // Get profile
   String pubKeyUrl =
       otherWebId.replaceAll('profile/card#me', '$sharingDirLoc/$pubKeyFile');
@@ -446,6 +456,10 @@ Future<String> fetchOtherPubKey(Map authData, String otherWebId) async {
       var pubKeyVal = t.split('>').last.trim();
       otherPubKey = pubKeyVal;
     }
+  }
+
+  if (otherPubKey.endsWith('.')) {
+    otherPubKey = otherPubKey.substring(0, otherPubKey.length - 1);
   }
 
   return otherPubKey;
@@ -466,6 +480,10 @@ Future<String> copySharedKey(
   var rsaKeyPair = rsaInfo['rsa'];
   var publicKeyJwk = rsaInfo['pubKeyJwk'];
   String accessToken = authData['accessToken'];
+
+  if (!webId.contains('card#me')) {
+    webId = webId.replaceAll('/card#', '/card#me');
+  }
 
   /// Create a directory if not exists
   String dirUrl =

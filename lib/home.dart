@@ -27,15 +27,13 @@ library;
 
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:crypto/crypto.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
+import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:intl/intl.dart';
 import 'package:markdown_editor_plus/markdown_editor_plus.dart';
-
 import 'package:podnotes/common/rest_api/rest_api.dart';
 import 'package:podnotes/constants/app.dart';
 import 'package:podnotes/constants/colours.dart';
@@ -43,6 +41,8 @@ import 'package:podnotes/constants/file_structure.dart';
 import 'package:podnotes/constants/turtle_structures.dart';
 import 'package:podnotes/widgets/err_dialogs.dart';
 import 'package:podnotes/widgets/loading_animation.dart';
+
+import 'nav_screen.dart';
 
 class Home extends StatefulWidget {
   final String webId;
@@ -164,6 +164,14 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
                       String noteTitle =
                           formData['noteTitle'].replaceAll('\n', '');
 
+                      if (noteText == '' || noteTitle == '') {
+                        // ignore: use_build_context_synchronously
+                        Navigator.pop(context);
+                        showErrDialog(context,
+                            'Note title or note text cannot be empty. Please fill them and try again!');
+                        return;
+                      }
+
                       // By default all notes will be encrypted before storing in
                       // a POD
 
@@ -263,7 +271,18 @@ class HomeState extends State<Home> with SingleTickerProviderStateMixin {
 
                           if (updateIndKeyFileRes == 'ok') {
                             // ignore: use_build_context_synchronously
-                            Navigator.pop(context);
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => NavigationScreen(
+                                  webId: widget.webId,
+                                  authData: widget.authData,
+                                  page: 'home',
+                                ),
+                              ),
+                              (Route<dynamic> route) =>
+                                  false, // This predicate ensures all previous routes are removed
+                            );
                           } else {
                             // ignore: use_build_context_synchronously
                             Navigator.pop(context);
