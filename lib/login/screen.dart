@@ -236,8 +236,9 @@ class LoginScreen extends StatelessWidget {
                     await fetchPrvFile(profCardUrl, accessToken, dPopToken);
 
                 Map profInfo = getFileContent(profData);
-                authData['name'] = profInfo['fn'][1];
-
+                if (profInfo.keys.contains('fn')) {
+                  authData['name'] = profInfo['fn'][1];
+                }
                 // Check if master key is set in the local storage.
 
                 bool isKeyExist = await secureStorage.containsKey(
